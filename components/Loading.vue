@@ -19,7 +19,6 @@
 
 <script>
 export default {
-  target: 'static' 
 };
 </script>
 
