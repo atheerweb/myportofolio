@@ -1,76 +1,50 @@
 <template>
   <div class="container">
-    <div class="loader">
-      <span><p>100</p></span>
-      <div class="h3__wrapper">
-      <div class="h3__container">
-        <h3>اضغط هنا لبدأ العظمة</h3>
-      </div>
-      <div class="h3__container">
-        <h3>اضغط هنا لبدأ العظمة</h3>
-      </div>
-      <div class="h3__container">
-        <h3>اضغط هنا لبدأ العظمة</h3>
-      </div>
-      </div>
+    <div class="loading__animation" v-show="!disableComponent">
+      <span :class="{ transforrm: transformActive, blob: blobActive }">
+        <p v-show="blobActive">{{ precent }}</p>
+      </span>
+      <h3 v-show="blobActive">جاري التحميل</h3>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      precent: 0,
+      transformActive: false,
+      blobActive: true,
+      disableComponent:false,
+    };
+  },
+  methods: {
+    precentF() {
+      if (this.precent < 100) {
+        return this.precent++;
+      }
+    },
+    tactive() {
+      this.transformActive = !this.transformActive;
+      this.blobActive = !this.blobActive;
+    },
+    Component(){
+      this.disableComponent = !this.disableComponent;
+    }
+  },
+  mounted() {
+    setInterval(this.precentF, 40);
+    setTimeout(this.tactive, 4000);
+    setTimeout(this.Component, 5000);
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-  .h3__container:nth-child(1){
-     margin-left:2em;
-   }
-.loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  grid-area: 1 / 1 / 1 / 13;
-  overflow:hidden;
-  .h3__wrapper{
-    display: flex;
-  }
-  .h3__container:nth-child(1){
-margin-right:5em;
-  }
-  .h3__container:nth-child(3){
-margin-left:5em;
-  }
-  .h3__container {
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-    animation: scroll 8s linear infinite;
-    h3 {
-      font-size: 1.3rem;
-      margin-top: 45px;
-      font-weight: 300;
-      white-space: nowrap;
-    }
-  }
-  span {
-    animation: blob 7s ease-in-out infinite both,
-      movement 2s ease-in-out infinite both;
-    background-color: #e7d3f5;
-    overflow: hidden;
-    width: 35%;
-    height: 86px;
-    justify-content: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    p {
-      font-size: 1.8rem;
-      font-weight: 200;
-    }
-  }
-}
+
+
+//animations
 
 @keyframes blob {
   0%,
@@ -81,21 +55,62 @@ margin-left:5em;
     border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
   }
 }
-@keyframes movement {
-  0%,
-  100% {
-    transform: rotateY(30deg);
+
+@keyframes transformm {
+  0% {
+    width: 7em;
+    height: 86px;
   }
-  50% {
-    transform: rotateY(20deg);
+  100% {
+    width: 500%;
+    height: 500%;
   }
 }
-@keyframes scroll {
-  0% {
-    transform: translateX(170vw);
+
+//vue methods classes
+.blob {
+  animation: blob 7s ease-in-out infinite both,
+    movement 2s ease-in-out infinite both;
+}
+.transforrm {
+  animation: transformm 900ms ease-in-out both;
+}
+
+.loading__animation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  grid-area: 1 / 1 / 1 / 13;
+  overflow: hidden;
+  position: fixed;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  color: var(--text);
+  span {
+    background-color: #ded3f5;
+    overflow: hidden;
+    width: 7em;
+    height: 86px;
+    justify-content: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    p {
+      font-size: 1.5rem;
+      font-weight: 800;
+      transition: all 250ms ease-out;
+    }
   }
-  100% {
-    transform: translateX(-170vw);
+  h3 {
+    font-size: 1.5rem;
+    margin-top: 12rem;
+    font-weight: 800;
+    z-index: 999999;
+    transition: all 250ms ease-out;
   }
 }
 </style>
