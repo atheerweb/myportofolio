@@ -1,11 +1,9 @@
 <template>
-  <div class="container">
-    <div class="loading__animation" v-show="!disableComponent">
-      <span :class="{ transforrm: transformActive, blob: blobActive }">
-        <p v-show="blobActive">{{ precent }}</p>
-      </span>
-      <h3 v-show="blobActive">جاري التحميل</h3>
-    </div>
+  <div class="loading__animation" v-show="!disableComponent">
+    <span :class="{ transforrm: transformActive, blob: blobActive }">
+      <p v-show="blobActive">{{ precent }}</p>
+    </span>
+    <h3 v-show="blobActive">جاري التحميل</h3>
   </div>
 </template>
 
@@ -16,7 +14,7 @@ export default {
       precent: 0,
       transformActive: false,
       blobActive: true,
-      disableComponent:false,
+      disableComponent: false,
     };
   },
   methods: {
@@ -29,21 +27,21 @@ export default {
       this.transformActive = !this.transformActive;
       this.blobActive = !this.blobActive;
     },
-    Component(){
+    Component() {
       this.disableComponent = !this.disableComponent;
-    }
+    },
   },
   mounted() {
     setInterval(this.precentF, 40);
     setTimeout(this.tactive, 4000);
     setTimeout(this.Component, 5000);
+    console.log("loading Mounted")
+
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
-
 //animations
 
 @keyframes blob {
@@ -83,12 +81,14 @@ export default {
   flex-direction: column;
   grid-area: 1 / 1 / 1 / 13;
   overflow: hidden;
-  position: fixed;
+  position: absolute;
   background-color: white;
   width: 100%;
   height: 100%;
   color: var(--text);
-  span {
+  top:0;
+
+   span {
     background-color: #ded3f5;
     overflow: hidden;
     width: 7em;
